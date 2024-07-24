@@ -1,0 +1,777 @@
+﻿var SiteLanguage;
+var isArabic = true;
+var root = "ar";
+
+document.addEventListener("DOMContentLoaded", function () {
+  window.addEventListener("scroll", function () {
+    //    console.log(window.scrollY,window.scrollX)
+    if (window.scrollY > 50) {
+      document.querySelector(".menuBg").classList.add("fixedTop");
+      // add padding top to show content behind navbar
+      // navbar_height = document.querySelector('.navbar').offsetHeight;
+      // document.body.style.paddingTop = navbar_height + 'px';
+    } else {
+      document.querySelector(".menuBg").classList.remove("fixedTop");
+      // remove padding top from body
+      // document.body.style.paddingTop = '0';
+    }
+  });
+});
+
+            function getLastModified() {
+                var SiteLanguage = _spPageContextInfo.currentUICultureName;
+                var endPoint;
+                if (SiteLanguage == 'ar-SA') {
+                    endPoint = _spPageContextInfo.siteAbsoluteUrl + "/_layouts/MEWAHandler/MEWAHandler.ashx?type=getlastmodified&siteUrl=/ar";
+                } else {
+                    endPoint = _spPageContextInfo.siteAbsoluteUrl + "/_layouts/MEWAHandler/MEWAHandler.ashx?type=getlastmodified&siteUrl=/en";
+                }
+
+                var html_content = '';
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json",
+                    url: endPoint,
+                    dataType: 'json',
+                    async: true,
+                    cache: false,
+                    success: function (data) {
+                        if (data != undefined && data.length > 0) {
+                            if (SiteLanguage == 'ar-SA') html_content += "آخر تحديت للموقع فى " + data;
+                            else html_content += "The site was last updated on " + data;
+                            $('#lastModVal').html(html_content);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //alert(XMLHttpRequest, textStatus, errorThrown);
+                        console.log(XMLHttpRequest, textStatus, errorThrown);
+                    }
+                });
+            }
+
+
+$(document).ready(function () {
+
+if($('.img-right .ms-rtestate-field').html() && $('.img-right .ms-rtestate-field').html().length < 50){
+	$('.img-right').css('margin','0px');
+}
+
+SiteLanguage = _spPageContextInfo.currentUICultureName;
+isArabic = SiteLanguage == 'ar-SA' ? true : false;
+root = SiteLanguage == 'ar-SA' ? "ar" : "en";
+
+getLastModified();
+
+$(".owl-carousel-manager").owlCarousel({
+  loop: false,
+  margin: 24,
+  // stagePadding: 30,
+  rtl: isArabic,
+  mouseDrag: false,
+  touchDrag: false,
+  nav: true,
+  navText: [
+    '<img src="/Style%20Library/ar-sa/assets/images/home/arrowSlider2.svg" />',
+    '<img src="/Style%20Library/ar-sa/assets/images/home/arrowSlider1.svg" />',
+  ],
+  responsive: {
+    0: {
+      items: 1,
+    },
+    1000: {
+      items: 2,
+    },
+    1400: {
+      items: 4,
+    },
+  },
+});
+
+// $("p").hover(function(){
+/*
+$(".owl-carousel-manager .owl-item").hover(function () {
+  console.log("444");
+  $(this).parent().addClass("custom-width");
+  $(this).addClass("hovered");
+  $(this).siblings().addClass("hide-me ");
+},
+  function () {
+    $(".owl-carousel-manager .owl-stage ").removeClass("custom-width");
+    $(this).removeClass("hovered");
+    $(this).siblings().removeClass("hide-me")
+
+  }
+);
+*/
+
+
+        var feedbackSlider = $(".feedback-owl-carousel");
+        feedbackSlider.owlCarousel({
+            // loop: true,
+            nav: true,
+            navText: [
+                '<img src="/Style Library/ar-sa/assets/images/home/arrowSlider2.svg" />',
+                '<img src="/Style Library/ar-sa//assets/images/home/arrowSlider1.svg" />',
+            ],
+            items: 4,
+            slideBy: 4,
+            // dots: true,
+            margin: 24,
+            autoplay: false,
+            rtl: isArabic,
+            // autoplayTimeout: 7500,
+            // autoplayHoverPause:true
+              responsive: {
+			    0: {
+			      items: 1,
+			    },
+			    1000: {
+			      items: 2,
+			    },
+			    1200: {
+			      items: 3,
+			    },
+			     1400: {
+			      items: 4,
+			    },
+
+			  },
+
+        });
+
+  $("a.fancybox").fancybox({
+    // openEffect	: 'none',
+    // closeEffect	: 'none'
+    loop: true,
+  });
+  $("a.fancyboxVideo").fancybox({
+    // openEffect	: 'none',
+    // closeEffect	: 'none'
+    type: "iframe",
+    youtube: {
+      autoplay: 1, // enable autoplay
+    }
+  });
+
+  // $("a").click(function (e) {
+  //   e.preventDefault();
+
+  //   if (this.hash) {
+  //     var target = "#" + this.hash.substr(1);
+  //     var destination = $(target).offset().top - 10;
+
+  //     $("#main")
+  //       .stop()
+  //       .animate(
+  //         {
+  //           scrollTop: "+=" + destination,
+  //         },
+  //         1000
+  //       );
+  //   }
+  // });
+
+  /*
+  .. fix issue of scrolling wen open menu
+  */
+  $(".menuBg  .navbar-toggler").on("click", function () {
+    $(".menuBg ").toggleClass("preventScrolling");
+  });
+  /*
+  .. scroll top 
+  */
+  $(".scrollTop").on("click", function () {
+    $("html, body").animate({
+      scrollTop: $("html, body").offset().top,
+    });
+  });
+  /*
+  .. open slide down
+  */
+  $(".HappensNowOpen").click(function (e) {
+    e.preventDefault();
+    $(".happeningNow").toggleClass("openUpSection");
+  });
+
+  /*
+  .. open chat
+  */
+
+  $(".chatNow").click(function (e) {
+    e.preventDefault();
+    $(".chatNowBox").fadeToggle();
+  });
+
+  /*
+    .. sliders
+    */
+  $(".owl-carousel-header").owlCarousel({
+    loop: false,
+    rtl: isArabic,
+    margin: 10,
+    nav: true,
+    autoplay:true,
+    autoplayTimeout:5000,
+    autoplayHoverPause:true,
+    navText: [
+      '<img src="/Style Library/ar-sa/assets/images/home/arrowOwlH2.svg" />',
+      '<img src="/Style Library/ar-sa/assets/images/home/arrowOwlH1.svg" />',
+    ],
+    responsive: {
+      0: {
+        items: 1,
+      },
+      600: {
+        items: 1,
+      },
+      1000: {
+        items: 1,
+      },
+    },
+  });
+
+  $(".owl-carousel-center").owlCarousel({
+    loop: false,
+    margin: 35,
+    nav: true,
+    autoplay:true,
+    navText: [
+      '<img src="/Style Library/ar-sa/assets/images/home/arrowSlider2.svg" />',
+      '<img src="/Style Library/ar-sa/assets/images/home/arrowSlider1.svg" />',
+    ],
+    rtl: isArabic,
+    stagePadding: 20,
+    // responsiveClass:true,
+    responsive: {
+      0: {
+        items: 1,
+      },
+      1000: {
+        items: 2,
+      },
+      1400: {
+        items: 3,
+      },
+    },
+  });
+
+  $(".owl-carousel-news").owlCarousel({
+    loop: false,
+    margin: 40,
+    rtl: isArabic,
+	 nav: true,
+    navText: [
+      '<img src="/Style Library/ar-sa/assets/images/home/arrowSlider1.svg" />',
+      '<img src="/Style Library/ar-sa/assets/images/home/arrowSlider2.svg" />',
+    ],
+    responsive: {
+      0: {
+        items: 1,
+      },
+      1000: {
+        items: 2,
+      },
+      1400: {
+        items: 3,
+      },
+    },
+  });
+  $(".owl-carousel-event1").owlCarousel({
+    loop: false,
+    margin: 40,
+    stagePadding: 30,
+    rtl: isArabic,
+     nav: true,
+    navText: [
+      '<img src="/Style Library/ar-sa/assets/images/home/arrowSlider1.svg" />',
+      '<img src="/Style Library/ar-sa/assets/images/home/arrowSlider2.svg" />',
+    ],
+    responsive: {
+      0: {
+        items: 1,
+      },
+      1000: {
+        items: 2,
+      },
+      1400: {
+        items: 3,
+      },
+    },
+  });
+  $(".owl-carousel-event2").owlCarousel({
+    loop: false,
+    margin: 48,
+    stagePadding: 30,
+    rtl: isArabic,
+    nav: true,
+    navText: [
+      '<img src="/Style Library/ar-sa/assets/images/home/arrowSlider1.svg" />',
+      '<img src="/Style Library/ar-sa/assets/images/home/arrowSlider2.svg" />',
+    ],
+    // items:3.5,
+    responsive: {
+      0: {
+        items: 1,
+      },
+      1000: {
+        items: 2,
+      },
+      1500: {
+        items: 3,
+      },
+    },
+  });
+  
+  
+  
+      $(".owl-carousel-initiatives").owlCarousel({
+    loop: false,
+    margin: 24,
+    // stagePadding: 30,
+    rtl: isArabic,
+    nav: true,
+    navText: [
+      '<img src="/Style Library/ar-sa/assets/images/home/arrowSlider2.svg" />',
+      '<img src="/Style Library/ar-sa/assets/images/home/arrowSlider1.svg" />',
+    ],
+    responsive: {
+      0: {
+        items: 1,
+      },
+      1000: {
+        items: 2,
+      },
+      1400: {
+        items: 3,
+      },
+    },
+  });
+
+/*
+  $(".owl-carousel-creative").owlCarousel({
+    loop: false,
+    margin: 24,
+    // stagePadding: 30,
+    rtl: isArabic,
+    nav: true,
+    navText: [
+      '<img src="/Style Library/ar-sa/assets/images/home/arrowSlider2.svg" />',
+      '<img src="/Style Library/ar-sa/assets/images/home/arrowSlider1.svg" />',
+    ],
+    responsive: {
+      0: {
+        items: 1,
+      },
+      1000: {
+        items: 2,
+      },
+      1400: {
+        items: 3,
+      },
+    },
+  });
+  */
+  
+  
+  const swiper = new Swiper(".swiperMain", {
+    // Optional parameters
+    direction: "vertical",
+    loop: true,
+    autoplay: {
+      delay: 3000,
+    },
+    // If we need pagination
+    pagination: {
+      //   el: '.swiper-pagination',
+    },
+
+    // Navigation arrows
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+
+    // And if we need scrollbar
+    scrollbar: {
+      // el: '.swiper-scrollbar',
+    },
+  });
+});
+
+ function setLightMode(){
+	if($('body').hasClass("contrast")) {
+	    $("body").toggleClass("contrast");
+	}
+	document.cookie = "darkMode=0;path=/";
+}
+function setDarkMode(){
+	if($('body').hasClass("contrast") == false) {
+	    $("body").toggleClass("contrast");
+	}
+	document.cookie = "darkMode=1;path=/";
+}
+function getCookie(name) {
+    var dc = document.cookie;
+    var prefix = name + "=";
+    var begin = dc.indexOf("; " + prefix);
+    if (begin == -1) {
+        begin = dc.indexOf(prefix);
+        if (begin != 0) return null;
+    }
+    else
+    {
+        begin += 2;
+        var end = document.cookie.indexOf(";", begin);
+        if (end == -1) {
+        end = dc.length;
+        }
+    }
+    // because unescape has been deprecated, replaced with decodeURI
+    //return unescape(dc.substring(begin + prefix.length, end));
+    return decodeURI(dc.substring(begin + prefix.length, end));
+}
+$(document).ready(function () {
+
+
+// color func
+$(".black-white").on("click", function (e) {
+ if($('body').hasClass("contrast")) {
+  	setLightMode();
+  }else {
+  	setDarkMode();
+  }
+  e.stopPropagation();
+ 
+});
+
+var darkModeCookie = getCookie('darkMode');
+
+	if (darkModeCookie == undefined){
+		setLightMode();
+	} else {
+if(darkModeCookie == "0"){setLightMode();}
+if(darkModeCookie == "1"){setDarkMode();}
+		 
+	}
+
+// color func footer
+$(".black-white-footer").on("click", function (e) {
+  $("body").toggleClass("contrast");
+
+  e.stopPropagation();
+ 
+});
+
+
+
+  /* --- Font sizing Function --- */
+  $('#increase-font').click(function(){
+    modifyFontSize('html','increase');
+  });
+  $('#decrease-font').click(function(){
+    modifyFontSize('html','decrease')
+  });
+  $('#reset-font').click(function(){
+    modifyFontSize('html','reset')
+  });
+
+
+
+  /* --- footer Font sizing Function --- */
+  $('#increase-font-footer').click(function(){
+    modifyFontSize('html','increase');
+  });
+  $('#decrease-font-footer').click(function(){
+    modifyFontSize('html','decrease')
+  });
+  $('#reset-font-footer').click(function(){
+    modifyFontSize('html','reset')
+  });
+
+});
+
+  function modifyFontSize(MyElement,flag){
+
+    var HtmlElement = $(MyElement);
+  var currentFontSize = parseInt(HtmlElement.css('font-size'));
+
+  if ($(window).width() > 1600) {
+      if (flag == 'increase' && currentFontSize < 24) {
+          currentFontSize += 1;
+      } else if (flag == 'decrease' && currentFontSize > 19) {
+          currentFontSize -= 1;
+      } else if (flag == 'reset') {
+          currentFontSize = 21;
+      }
+  } else {
+      if (flag == 'increase' && currentFontSize < 22) {
+          currentFontSize += 1;
+      } else if (flag == 'decrease' && currentFontSize > 15) {
+          currentFontSize -= 1;
+      } else if (flag == 'reset') {
+          currentFontSize = 18;
+      }
+  }
+
+  HtmlElement.css('font-size', currentFontSize + 'px');
+
+  }
+
+ function startVoiceRecognition(){
+ 	if(isArabic){
+ 		startVoiceRecognitionAr()
+ 	}else{
+ 		startVoiceRecognitionEn()
+ 	}
+ }
+ 
+ function startVoiceRecognitionAr() {
+  if (annyang) {
+    var goTo = function (tag) {
+
+      var GoToURL = '';
+      if (tag == 'عن الوزارة' || tag == 'عن الوزارة.')
+        GoToURL = '/ar/Ministry/Pages/default.aspx';
+      else if (tag == 'الوكالات' || tag == 'الوكالات.')
+        GoToURL = '/ar/Ministry/Agencies/Pages/home.aspx';
+      else if (tag == 'بوابة نما للخدمات الإلكترونية' || tag == 'بوابة نما للخدمات الإلكترونية.')
+        GoToURL = 'https://naama.sa/'
+      else if (tag == 'صوت المواطن' || tag == 'صوت المواطن.')
+        GoToURL = '/ar/eServices/Pages/صوت-المواطن.aspx'
+      else if (tag == 'البيانات المفتوحة' || tag == 'البيانات المفتوحة.')
+        GoToURL = '/ar/InformationCenter/OpenData/Pages/home.aspx'
+      else if (tag == 'بيانات واحصاءات' || tag == 'بيانات واحصاءات.')
+        GoToURL = '/ar/InformationCenter/Pages/default.aspx'
+
+      if (GoToURL != '') {
+        window.location.replace(GoToURL);
+      }
+
+    };
+
+    var commands = { '*tag': goTo };
+    // OPTIONAL: activate debug mode for detailed logging in the console
+    annyang.debug();
+    // Add voice commands to respond to
+    annyang.addCommands(commands);
+    // OPTIONAL: Set a language for speech recognition (defaults to English)
+    annyang.setLanguage('ar');
+    // Start listening. You can call this here, or attach this call to an event, button, etc.
+    annyang.start({ autoRestart: true, continuous: false });
+  }
+  else {
+    console.log('المتصفح لا يدعم الأوامر الصوتية');
+  }
+}
+
+function startVoiceRecognitionEn() {
+	if (annyang) {
+		var goTo = function (tag) {
+
+			var GoToURL = '';
+			if (tag == 'About Ministry' || tag == '/About Ministry.')
+				GoToURL = '/en/Ministry/Pages/default.aspx';
+			else if (tag == 'Agencies' || tag == 'Agencies.')
+				GoToURL = '/en/Ministry/Agencies/Pages/home.aspx';
+			else if (tag == 'Nama portal for electronic services' || tag == 'Nama portal for electronic services.')
+				GoToURL = 'https://naama.sa/'
+			else if (tag == 'Citizen Voice' || tag == 'Citizen Voice.')
+				GoToURL = '/ar/eServices/Pages/صوت-المواطن.aspx'
+			else if (tag == 'Open Data' || tag == 'Open Data.')
+				GoToURL = '/en/InformationCenter/OpenData/Pages/home.aspx'
+			else if (tag == 'Information And Statistics' || tag == 'Information And Statistics.')
+				GoToURL = '/en/InformationCenter/Pages/default.aspx'
+
+			if (GoToURL != '') {
+				window.location.replace(GoToURL);
+			}
+
+		};
+
+		var commands = { '*tag': goTo };
+		// OPTIONAL: activate debug mode for detailed logging in the console
+		annyang.debug();
+		// Add voice commands to respond to
+		annyang.addCommands(commands);
+		// OPTIONAL: Set a language for speech recognition (defaults to English)
+		annyang.setLanguage('ar');
+		// Start listening. You can call this here, or attach this call to an event, button, etc.
+		annyang.start({ autoRestart: true, continuous: false });
+	}
+	else {
+		console.log('The browser does not support voice commands');
+	}
+}
+
+function stopVoiceRecognition() {
+  if (annyang)
+    annyang.abort();
+  else
+    console.log('The browser does not support voice commands');
+}
+
+function pauseVoiceRecognition() {
+  if (annyang.isListening() == true)
+    annyang.pause();
+  else
+    console.log('The browser does not support voice commands');
+}
+
+function resumeVoiceRecognition() {
+  if (annyang.isListening() != true)
+    annyang.resume();
+  else
+    console.log('The browser does not support voice commands');
+}
+
+function SearchHref() {
+  var SearchKey = document.getElementById("txtSearch").value;
+  window.location.href = "/"+root+"/search/pages/default.aspx?k=" + SearchKey;
+}
+
+function SearchKey() {
+  if (event.keyCode == 13) {
+    var SearchKey = document.getElementById("txtSearch").value;
+    window.location.href = "/"+root+"/search/pages/default.aspx?k=" + SearchKey;
+  }
+}
+
+// checkIsValidatePage
+function checkIsValidatePage(validationGroup) {
+    if (typeof (Page_ClientValidate) == 'function') {
+        if (Page_ClientValidate(validationGroup)) {
+            Page_BlockSubmit = false;
+            return true;
+        } else {
+            Page_BlockSubmit = false;
+            return false;
+        }
+    }
+    Page_BlockSubmit = false;
+    return true;
+}
+
+// addloadingClass
+function addloadingClass(selector) {
+    $(selector + ' .load-wrapp:first').addClass('show');
+}
+
+// removeloadingClass
+function removeloadingClass(selector) {
+    $(selector + ' .load-wrapp:first').removeClass('show');
+}
+
+
+
+/* index page > Main slider > mouse icon onclick to next section*/
+/*
+var calculateOffset = function (el) {
+  if ($(el).length == 0) return;
+  // if ($(window).width() >= 980) return Math.floor($(el).offset().top - 69);
+  return Math.floor($(el).offset().top) -100;
+};
+
+var scrollTo = function (sectionEl = "", callback = function () {}) {
+  $("html, body").animate(
+    {
+      scrollTop:  calculateOffset(sectionEl) - 100,
+    },
+    300,
+    "swing",
+   //callback()
+  );
+};*/
+
+$(function () {
+
+if( $('.content table').length ){
+  $('.content table').parent().addClass('tableRes')
+
+}
+$('.toggleTopMenu').click(function() {
+  $(this).parent().next().toggleClass('TTMSow')
+})
+
+
+$(".scrollDown a").on("click", function () {
+	  console.log("1234");
+  scrollTo(".servicesBg", function () {
+  	
+    });
+});
+});
+
+
+   $(".weather-widget .notification").on("click", function () {
+      console.log("dddd");
+      $(".weather-widget .dropdown").toggleClass("open");
+    })
+
+
+    $(document).click(function(e) {
+      if (!$(e.target).is('.weather-widget .dropdown ,  .weather-widget .dropdown * ')) {
+      $(".weather-widget .dropdown").removeClass("open");
+      }
+      });
+      
+      
+      
+/*
+	responsive menu toggle
+*/
+
+
+$(document).ready(function () {
+
+$(window).scroll(function () {
+    var $heightScrolled = $(window).scrollTop();
+    var $defaultHeight = 500;
+
+    if ($heightScrolled < $defaultHeight) {
+        $('.scrollTop').removeClass("d-block")
+        $('.scrollTop').addClass("d-none")
+    }
+    else {
+	$('.scrollTop').removeClass("d-none")
+        $('.scrollTop').addClass("d-block")
+    }
+
+});
+      
+if ($(window).width() < 1200) {
+
+        $(".navbar-nav .colMenu h4").append("<span class='Appended2 '>+</span>")
+        $(".Appended2").on("click", function () {
+         
+          $(this).toggleClass('openMenu').parent().next().slideToggle()
+          
+        });
+        $(".navbar-nav .dropdown ").append("<span class='Appended'>+</span>")
+        $(".Appended").on("click", function () {
+         
+          $(this).toggleClass('openMenu').prev('.dropdown-menu').slideToggle()
+          
+        });
+        
+          if($(".navbar-nav .colMenu ul li")) {
+              $(".navbar-nav .colMenu ul li").parentsUntil('colMenu').addClass('yesIts')
+          }
+       
+        
+      }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+/*
+$("#kaec-chat-button").on("click", function () {
+    $("#sn_va_web_client ").toggleClass("d-block");
+  }); 
+      */
+ }) 
+ 
+ 
